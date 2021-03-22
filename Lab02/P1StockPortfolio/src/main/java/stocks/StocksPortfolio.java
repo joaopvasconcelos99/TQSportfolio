@@ -6,7 +6,12 @@ public class StocksPortfolio {
 
     private String name;
     private IStockMarket marketService;
-    private ArrayList<Stock> stocks = new ArrayList<>();
+    private ArrayList<Stock> stocks;
+
+    public StocksPortfolio(IStockMarket marketService) {
+        this.marketService = marketService;
+        stocks = new ArrayList<>();
+    }
 
     public IStockMarket getMarketService() {
         return this.marketService;
@@ -25,10 +30,10 @@ public class StocksPortfolio {
     }
 
     public double getTotalValue(){
-        double total = 0.0;
+        double total = 0;
 
         for (Stock stock : this.stocks) {
-            total += stock.getQuantity() * marketService.getPrice(stock.getName());
+            total += stock.getQuantity() * (marketService.getPrice(stock.getName()));
         }
 
         return total;

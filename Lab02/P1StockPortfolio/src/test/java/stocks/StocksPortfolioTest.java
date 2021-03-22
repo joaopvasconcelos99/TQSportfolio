@@ -9,13 +9,14 @@ import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.Matcher.*;
+
 public class StocksPortfolioTest {
 
     @Mock
-    IStockMarket marketService2;
+    IStockMarket marketService2 = mock(IStockMarket.class);
 
     @InjectMocks
-    StocksPortfolio portfolio2;
+    StocksPortfolio portfolio2 = new StocksPortfolio(marketService2);
 
     @Test
     void getTotalValueWithMocks() {
@@ -24,7 +25,7 @@ public class StocksPortfolioTest {
         IStockMarket marketService = mock(IStockMarket.class);
         
         // 2.Create an instance of the subject under test (SuT) and use the mock to set the (remote) service instance.
-        StocksPortfolio portfolio = new StocksPortfolio();
+        StocksPortfolio portfolio = new StocksPortfolio(marketService);
 
         // 3.Load the mock with the proper expectations (when...thenReturn)
         when (marketService.getPrice("EDP")).thenReturn(10.0);
@@ -32,13 +33,16 @@ public class StocksPortfolioTest {
 
         // 4.Execute the test (use the service in the SuT)
         portfolio.addStock(new Stock("EDP", 5));
-        portfolio.addStock(new Stock("Star Bucks", 15));
+        portfolio.addStock(new Stock("StarBucks", 15));
 
         // 5.Verify the result (assert) and the use of the mock (verify)
-        double result = (10 * 5.0) + (55 * 15);
-        verify(marketService, times(2)).getPrice( anyString()); //Verify the Mock's function was called twice
+        double result = (10 * 5) + (55 * 15);
 
         assertEquals(portfolio.getTotalValue(),result);
+
+        verify(marketService, times(2)).getPrice( anyString()); //Verify the Mock's function was called twice
+
+
     }
 
 
@@ -56,15 +60,19 @@ public class StocksPortfolioTest {
 
         // 4.Execute the test (use the service in the SuT)
         portfolio2.addStock(new Stock("EDP", 5));
-        portfolio2.addStock(new Stock("Star Bucks", 15));
+        portfolio2.addStock(new Stock("StarBucks", 15));
 
         // 5.Verify the result (assert) and the use of the mock (verify)
         double result = (10 * 5.0) + (55 * 15);
-        verify(marketService2, times(2)).getPrice( anyString()); //Verify the Mock's function was called twice
 
         assertEquals(portfolio2.getTotalValue(),result);
 
+        verify(marketService2, times(2)).getPrice( anyString()); //Verify the Mock's function was called twice
+
         assertThat(portfolio2.getTotalValue(),is(result));
+
+        // 2x em asserEquals & 2x em assertThat
+        verify(marketService2, times(4)).getPrice( anyString()); //Verify the Mock's function was called 4 times
     }
 
 
