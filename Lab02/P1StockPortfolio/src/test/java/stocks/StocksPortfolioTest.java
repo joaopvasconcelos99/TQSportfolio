@@ -1,8 +1,10 @@
 package stocks;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -10,13 +12,14 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.Matcher.*;
 
+@ExtendWith(MockitoExtension.class)
 public class StocksPortfolioTest {
 
     @Mock
-    IStockMarket marketService2 = mock(IStockMarket.class);
+    IStockMarket marketService2; // = mock(IStockMarket.class);
 
     @InjectMocks
-    StocksPortfolio portfolio2 = new StocksPortfolio(marketService2);
+    StocksPortfolio portfolio2; // = new StocksPortfolio(marketService2);
 
     @Test
     void getTotalValueWithMocks() {
