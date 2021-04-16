@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 @Entity
 public class Car {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long carId;
 
     private String maker;
@@ -18,6 +18,8 @@ public class Car {
     public Car(String model, String maker) {
         this.model = model;
         this.maker = maker;
+        this.carId = 10L;
+
     }
 
     public Long getCarId() {
